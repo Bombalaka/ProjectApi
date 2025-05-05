@@ -3,11 +3,23 @@
     ViewData["Title"] = "Product List";
 }
 
-<h2>Product List</h2>
-<a asp-action="Create">+ Add Product</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>🗂️ Product List</h2>
+    <a class="btn btn-success" asp-action="Create">+ Add Product</a>
+</div>
 
-<table>
-    <thead>
+@if (!Model.Any())
+{
+    <div class="alert alert-warning mt-3">No products found matching your search.</div>
+}
+<form  method="get" class="mb-3 d-flex justify-content-end">
+    <input type="text" name="searchTerm" value="@ViewContext.HttpContext.Request.Query["searchTerm"]"
+           class="form-control w-25 me-2" placeholder="Search product..." />
+    <button type="submit" class="btn btn-outline-light" asp-action="Search">🔍 Search</button>
+</form>
+
+<table class="table table-dark table-hover table-bordered">
+    <thead class="table-primary">
         <tr>
             <th>ID</th><th>Name</th><th>Price</th><th>Actions</th>
         </tr>
@@ -20,12 +32,10 @@
             <td>@p.Name</td>
             <td>@p.Price.ToString("C")</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@p.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@p.Id">Delete</a>
+                <a class="btn btn-sm btn-outline-info" asp-action="Edit" asp-route-id="@p.Id">✏️ Edit</a>
+                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@p.Id">🗑️ Delete</a>
             </td>
         </tr>
     }
     </tbody>
 </table>
-<p>
-    <a asp-action="Index" asp-controller="Home">Back to Home</a>

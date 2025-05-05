@@ -63,4 +63,19 @@ public class ProductsController : Controller
         await _service.DeleteAsync(id);
         return RedirectToAction(nameof(Index));
     }
+    [HttpGet]
+    public async Task<IActionResult> Search(string? searchTerm)
+    {
+        var products = await _service.GetAllAsync();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            products = products.Where(p =>
+                p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return View("Search", products); // Views/Products/Search.cshtml
+    }
+
+
 }

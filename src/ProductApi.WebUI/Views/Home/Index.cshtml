@@ -1,8 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "WELCOME TO THE PRODUCT API";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<form method="get" class="mb-3 d-flex justify-content-end">
+    <input type="text" name="searchTerm" value="@Context.Request.Query["searchTerm"]"
+           class="form-control w-25 me-2" placeholder="Search product..." />
+    <button type="submit" class="btn btn-outline-light">🔍 Search</button>
+</form>
+<div class="text-center mt-5">
+    <h1 class="display-4">🎉 Welcome to Your Product API!</h1>
+    <p class="lead">Use the navigation to view, add, or manage products.</p>
+    <a class="btn btn-primary mt-3" asp-controller="Products" asp-action="Index">Go to Products</a>
 </div>

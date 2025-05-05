@@ -1,0 +1,23 @@
+:root[data-theme="light"] {
+    --bs-body-bg: #f8f9fa;
+    --bs-body-color: #212529;
+    --bs-bg: #ffffff;
+}
+:root[data-theme="dark"] {
+    --bs-body-bg: #121212;
+    --bs-body-color: #f8f9fa;
+    --bs-bg: #212529;
+}
+
+body {
+    background-color: var(--bs-body-bg) !important;
+    color: var(--bs-body-color) !important;
+}
+.navbar-theme {
+    background-color: var(--navbar-bg) !important;
+    color: var(--navbar-text) !important;
+}
+
+.navbar-theme .nav-link {
+    color: var(--navbar-text) !important;
+}

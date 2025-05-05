@@ -24,7 +24,7 @@ This is a small project I created to learn how to build an API from scratch usin
 
 1. Clone the repository  
    ```bash
-   git clone https://github.com/your-username/your-project-name.git
+   git clone https://github.com/Bombalaka/ProjectAPi.git
 2. Open the project in Visual Studio or VS Code.
 3. Run the project
    ```bash

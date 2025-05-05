@@ -2,6 +2,8 @@ using MongoDB.Driver;
 using ProductApi.Domain.Entities;
 using ProductApi.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
+using ProductApi.Infrastructure.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace ProductApi.Infrastructure.Repositories;
 
@@ -9,12 +11,18 @@ public class MongoProductRepository : IProductRepository
 {
     private readonly IMongoCollection<Product> _collection;
 
-    public MongoProductRepository(IConfiguration config)
+    public MongoProductRepository(IOptions<MongoDbSettings> options)
     {
-        var client = new MongoClient(config["MongoDB:ConnectionString"]);
-        var db = client.GetDatabase(config["MongoDB:DatabaseName"]);
-        _collection = db.GetCollection<Product>("Products");
+        var settings = options.Value;
+
+        if (string.IsNullOrEmpty(settings.ConnectionString))
+            throw new ArgumentException("MongoDB connection string is missing.");
+
+        var client = new MongoClient(settings.ConnectionString);
+        var database = client.GetDatabase(settings.DatabaseName);
+        _collection = database.GetCollection<Product>("Products");
     }
+
 
     public async Task<IEnumerable<Product>> GetAllAsync() =>
         await _collection.Find(_ => true).ToListAsync();

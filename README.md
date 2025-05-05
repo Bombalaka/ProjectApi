@@ -17,8 +17,8 @@ This is a small project I created to learn how to build an API from scratch usin
 
 - C# / .NET
 - ASP.NET Core Web API
-- Entity Framework Core (optional, if used)
-- SQLite / MongoDB / (mention your database)
+- MongoDB
+- Swagger 
 
 ## 🚀 How to Run the Project
 

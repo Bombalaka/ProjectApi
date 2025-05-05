@@ -4,6 +4,7 @@ using ProductApi.Domain.Entities;
 
 namespace ProductApi.WebUI.Controllers;
 
+
 public class ProductsController : Controller
 {
     private readonly IProductService _service;
@@ -12,7 +13,8 @@ public class ProductsController : Controller
     {
         _service = service;
     }
-
+    // GET: Products
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         var products = await _service.GetAllAsync();
@@ -31,7 +33,7 @@ public class ProductsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(string id)
     {
         var product = await _service.GetByIdAsync(id);
         if (product == null) return NotFound();
@@ -48,7 +50,7 @@ public class ProductsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(string id)
     {
         var product = await _service.GetByIdAsync(id);
         if (product == null) return NotFound();
@@ -56,7 +58,7 @@ public class ProductsController : Controller
     }
 
     [HttpPost, ActionName("Delete")]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(string id)
     {
         await _service.DeleteAsync(id);
         return RedirectToAction(nameof(Index));

@@ -24,8 +24,8 @@ public class MongoProductRepository : IProductRepository
 
     public async Task<Product> AddAsync(Product product)
     {
-        var max = await _collection.Find(_ => true).SortByDescending(p => p.Id).Limit(1).FirstOrDefaultAsync();
-        product.Id = max?.Id + 1 ?? 1;
+        // Generate a new ID using MongoDB's ObjectId
+        product.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
         await _collection.InsertOneAsync(product);
         return product;
     }

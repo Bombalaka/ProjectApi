@@ -1,3 +1,11 @@
+using ProductApi.Application;
+using ProductApi.Application.Services;
+using ProductApi.Domain;
+using ProductApi.Domain.Interfaces;
+using ProductApi.Infrastructure;
+using ProductApi.Infrastructure.Repositories;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

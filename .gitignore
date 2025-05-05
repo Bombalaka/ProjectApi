@@ -2,7 +2,7 @@
 **/mongo-data/
 .env
 docker-compose.override.yml
-
+appsettings.Development.json
 
 # Visual Studio files
 .vs/

@@ -29,6 +29,7 @@ builder.Services.Configure<MongoDbSettings>(
 // Dependency Injection
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, MongoProductRepository>();
+builder.Services.AddScoped<IReviewRepository, MongoReviewRepository>();
 
 
 

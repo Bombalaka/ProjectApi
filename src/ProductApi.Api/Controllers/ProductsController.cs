@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductApi.Application.Services;
 using ProductApi.Domain.Entities;
+using ProductApi.Application.DTOs;
+using ProductApi.Domain.Interfaces;
 
 namespace ProductApi.Api.Controllers;
 
@@ -9,15 +11,28 @@ namespace ProductApi.Api.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _service;
+    private readonly IReviewRepository _reviewRepo;
 
-    public ProductsController(IProductService service)
+    public ProductsController(IProductService service, IReviewRepository reviewRepo)
     {
+        _reviewRepo = reviewRepo;
         _service = service;
     }
 
+
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Product>>> GetAll()
-        => Ok(await _service.GetAllAsync());
+    public async Task<ActionResult<IEnumerable<ProductSummaryDto>>> GetAll()
+    {
+        var products = await _service.GetAllAsync();
+
+        var result = products.Select(p => new ProductSummaryDto
+        {
+            Id = p.Id,
+            Name = p.Name
+        });
+
+        return Ok(result);
+    }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Product>> GetById(string id)
@@ -46,5 +61,42 @@ public class ProductsController : ControllerBase
     {
         await _service.DeleteAsync(id);
         return NoContent();
+    }
+
+    [HttpGet("review/{id}")]
+    [ProducesResponseType(typeof(ProductForReviewDto), 200)]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> GetProductForReview(string id)
+    {
+        var product = await _service.GetByIdAsync(id);
+        if (product == null) return NotFound();
+
+        var dto = new ProductForReviewDto
+        {
+            Id = product.Id,
+            Name = product.Name
+        };
+
+        return Ok(dto);
+    }
+    // This endpoint is for submitting a review for a product
+    [HttpPost("{id}/reviews")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> SubmitReview(string id, [FromBody] ReviewInputDto dto)
+    {
+        if (dto.Stars < 1 || dto.Stars > 5)
+            return BadRequest("Stars must be between 1 and 5");
+
+        var review = new Review
+        {
+            ProductId = id,
+            Stars = dto.Stars,
+            Description = dto.Description,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _reviewRepo.AddAsync(review);
+        return Ok("✅ Review saved.");
     }
 }

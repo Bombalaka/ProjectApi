@@ -8,7 +8,7 @@ namespace ProductApi.Domain.Entities
         [BsonId]
         public ObjectId Id { get; set; }
 
-        public int ProductId { get; set; }
+        public string? ProductId { get; set; }
 
         public int Stars { get; set; }
 

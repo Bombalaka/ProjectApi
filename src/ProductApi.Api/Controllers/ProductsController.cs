@@ -8,6 +8,7 @@ namespace ProductApi.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _service;
@@ -98,5 +99,29 @@ public class ProductsController : ControllerBase
 
         await _reviewRepo.AddAsync(review);
         return Ok("✅ Review saved.");
+    }
+
+    // This endpoint is for getting all reviews for a product
+    [HttpGet("{id}/reviews")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> GetReviews(string id)
+    {
+        var product = await _service.GetByIdAsync(id);
+        if (product == null)
+            return NotFound("Product not found.");
+
+        var reviews = await _reviewRepo.GetByProductIdAsync(id);
+
+        var result = reviews.Select(r => new ReviewOutputDto
+        {
+            ProductId = r.ProductId ?? string.Empty,
+            ProductName = product.Name, // injected from lookup
+            Stars = r.Stars,
+            Description = r.Description,
+            CreatedAt = r.CreatedAt
+        });
+
+        return Ok(result);
     }
 }

@@ -14,11 +14,11 @@ public class ProductService : IProductService
 
     public Task<IEnumerable<Product>> GetAllAsync() => _repository.GetAllAsync();
 
-    public Task<Product?> GetByIdAsync(int id) => _repository.GetByIdAsync(id);
+    public Task<Product?> GetByIdAsync(string id) => _repository.GetByIdAsync(id);
 
     public Task<Product> CreateAsync(Product product) => _repository.AddAsync(product);
 
     public Task UpdateAsync(Product product) => _repository.UpdateAsync(product);
 
-    public Task DeleteAsync(int id) => _repository.DeleteAsync(id);
+    public Task DeleteAsync(string id) => _repository.DeleteAsync(id);
 }

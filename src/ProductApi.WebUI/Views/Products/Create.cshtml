@@ -1,0 +1,19 @@
+@model ProductApi.Domain.Entities.Product
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<h2>Create Product</h2>
+
+<form asp-action="Create">
+    <div>
+        <label>Name</label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label>Price</label>
+        <input asp-for="Price" type="number" step="0.01" />
+    </div>
+    <button type="submit">Save</button>
+    <a asp-action="Index">Cancel</a>
+</form>

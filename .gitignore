@@ -1,3 +1,9 @@
+# Docker volumes and containers (optional)
+**/mongo-data/
+.env
+docker-compose.override.yml
+
+
 # Visual Studio files
 .vs/
 *.suo
